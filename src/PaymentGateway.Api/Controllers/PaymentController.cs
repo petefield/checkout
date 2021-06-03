@@ -41,7 +41,7 @@ namespace PaymentGateway.Api.Controllers
         {            
             await _paymentRequestValidator.Validate(request);
             await _paymentRepo.AddRequest(request);
-            await _aquiringBank.CreatePayment(null);
+            await _aquiringBank.CreatePayment(request.CardNumber, request.CVV, request.ExpiryDate.Year,request.ExpiryDate.Month, request.Amount, request.CurencyCode );
             throw new NotImplementedException();
         }
     }
