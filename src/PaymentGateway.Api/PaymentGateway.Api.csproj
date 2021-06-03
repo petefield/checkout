@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\paymentgateway.Models.contracts\PaymentGateway.Models.Contracts.csproj" />
+    <ProjectReference Include="..\paymentgateway.services.contracts\PaymentGateway.Services.Contracts.csproj" />
+    <ProjectReference Include="..\acquiringBank.contracts\AcquiringBank.Contracts.csproj" />
+
+  </ItemGroup>
+
+</Project>
