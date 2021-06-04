@@ -31,9 +31,10 @@ namespace PaymentGateway.Api.Controllers
         }
 
         [HttpGet]
-        public IPaymentDetail Get(Guid PaymentRequestId)
+        public async Task<IPaymentDetail> Get(Guid PaymentRequestId)
         {
-            throw new NotImplementedException();
+            var paymentDetail = await _paymentRepo.Read(PaymentRequestId);
+            return null;
         }
 
         [HttpPost]
@@ -41,8 +42,17 @@ namespace PaymentGateway.Api.Controllers
         {            
             await _paymentRequestValidator.Validate(request);
             await _paymentRepo.AddRequest(request);
-            await _aquiringBank.CreatePayment(request.CardNumber, request.CVV, request.ExpiryDate.Year,request.ExpiryDate.Month, request.Amount, request.CurencyCode );
-            throw new NotImplementedException();
+            var bankResponse = await SendRequestToBank(request);
+            var response = Map(bankResponse);
+            await _paymentRepo.AddResponse(response);
+            return response;
+        }
+
+        private IPaymentResponse Map(IPaymentProcessingResponse response) => null;
+
+        private async Task<IPaymentProcessingResponse> SendRequestToBank(IPaymentRequest request)
+        {
+            return await _aquiringBank.CreatePayment(request.CardNumber, request.CVV, request.ExpiryDate.Year, request.ExpiryDate.Month, request.Amount, request.CurrencyCode );
         }
     }
 }

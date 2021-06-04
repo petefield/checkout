@@ -7,7 +7,7 @@ namespace PaymentGateway.Models.Contracts
         string CardNumber { get; set; }
         string CVV {get; set;}
         IExpiryDate ExpiryDate { get; set; }
-        decimal Amount {get; set; }
-        string CurencyCode{get; set;}
+        int Amount {get; set; }
+        string CurrencyCode{get; set;}
     }
 }
