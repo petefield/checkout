@@ -2,8 +2,8 @@
 
 namespace AcquiringBank.Contracts
 {
-    public interface IPaymentProcessor 
+    public interface IAcquiringBank 
     {
-        Task<IPaymentProcessingResponse> CreatePayment(string creditCardNumber, string CVV, int expiryYear, int expiryMonth, decimal Amount, string currency);
+        Task<IAcquiringBankResponse> CreatePayment(string creditCardNumber, string CVV, int expiryYear, int expiryMonth, decimal Amount, string currency);
     }
 }

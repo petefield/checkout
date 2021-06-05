@@ -13,50 +13,33 @@ namespace tests
     public class PaymentControllerTests
     {
         IPaymentStore _store;
-        IPaymentRequestValidator _validator;
-        IPaymentProcessor _processor;
-        PaymentGateway.Api.Controllers.PaymentController _subject;
+        IAcquiringBank _acquiringBank;
+        PaymentController _subject;
         ILogger<PaymentController> _logger;
         IPaymentRequest _request;
         public PaymentControllerTests()
         {
             _logger = Substitute.For<ILogger<PaymentController>>();
             _store = Substitute.For<IPaymentStore>();
-            _validator = Substitute.For<IPaymentRequestValidator>();
             var validationResult = Substitute.For<IValidationResult>();
             validationResult.IsValid.Returns(true);
-            _validator.Validate(Arg.Any<IPaymentRequest>()).Returns(validationResult);
-            _processor = Substitute.For<IPaymentProcessor>();
+            _acquiringBank = Substitute.For<IAcquiringBank>();
             _request = Substitute.For<IPaymentRequest>();
-            _subject = new PaymentController(_logger, _validator, _processor, _store);
+            _subject = new PaymentController(_logger, _acquiringBank, _store);
         }
 
         [Fact]
-        public void PaymentController_WhenRequestIsPosted_ShouldValidateRequest()
+        public async Task PaymentController_WhenResponseIsRecieved_ShouldStoreDetails()
         {
-            _subject.Post(_request);
-            _validator.Received().Validate(Arg.Is(_request));
+            await _subject.Post(_request);
+            await _store.Received().AddPaymentDetails(Arg.Any<IPaymentRequest>(), Arg.Any<IPaymentResponse>());
         }
 
         [Fact]
-        public void PaymentController_WhenValidRequestIsPosted_ShouldStoreRequest()
+        public async Task PaymentController_WhenRequestIsPosted_ShouldPassRequestToAcquiringBank()
         {
-            _subject.Post(_request);
-            _store.Received().AddRequest(Arg.Is(_request));
-        }
-
-        [Fact]
-        public void PaymentController_WhenResponseIsRecieved_ShouldStoreDetails()
-        {
-            _subject.Post(_request);
-            _store.Received().AddResponse(Arg.Any<IPaymentResponse>());
-        }
-
-        [Fact]
-        public void PaymentController_WhenRequestIsPosted_ShouldPassRequestToAcquiringBank()
-        {
-            _subject.Post(_request);
-            _processor.Received().CreatePayment(
+            await _subject.Post(_request);
+            await _acquiringBank.Received().CreatePayment(
                 Arg.Is<string>(r => r == _request.CardNumber),
                 Arg.Is<string>(r => r == _request.CVV),
                 Arg.Is<int>(r => r == _request.ExpiryDate.Year),
@@ -66,11 +49,11 @@ namespace tests
         }
 
           [Fact]
-        public void PaymentController_WhenGetCalled_ShouldObtainPaymentDetailsFromStore()
+        public async Task PaymentController_WhenGetCalled_ShouldObtainPaymentDetailsFromStore()
         {
             var paymentId = Guid.NewGuid();
-            _subject.Get(paymentId);
-            _store.Received().Read(paymentId);
+            await _subject.Get(paymentId);
+            await _store.Received().Read(paymentId);
         }
     }
 }

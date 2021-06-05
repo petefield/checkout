@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using PaymentGateway.Models.Contracts;
+using PaymentGateway.Services;
 
 namespace PaymentGateway.Models
 {
@@ -15,12 +16,13 @@ namespace PaymentGateway.Models
         public string CVV {get; set;}
         
         [Required]
+        [ExpiryDate]
         public IExpiryDate ExpiryDate { get; set; }
 
         [Range(1, 999999999)]
         public int Amount {get; set; }
 
-        [Required]
+        [CurrencyCode]
         public string CurrencyCode{get; set;}
     }
 }

@@ -1,10 +1,11 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\paymentgateway.Models.contracts\PaymentGateway.Models.Contracts.csproj" />
+    <ProjectReference Include="..\PaymentGateway.Services\PaymentGateway.Services.csproj" />
 
   </ItemGroup>
 </Project>

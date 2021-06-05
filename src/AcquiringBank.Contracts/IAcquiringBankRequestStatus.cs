@@ -1,6 +1,6 @@
 namespace AcquiringBank.Contracts
 {
-    public enum PaymentProcessingResponseStatus{
+    public enum IAcquiringBankRequestStatus{
         Success,
         Failed,
         Held,
