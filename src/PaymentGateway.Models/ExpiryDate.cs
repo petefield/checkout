@@ -7,5 +7,7 @@ namespace PaymentGateway.Models
     {
         public int Year { get; set; }
         public int Month { get; set; }
+
+        public override string ToString() => $"{Month}/{Year}";
     }
 }

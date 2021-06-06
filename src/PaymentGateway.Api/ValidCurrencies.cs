@@ -1,8 +1,5 @@
-﻿using PaymentGateway.Services.Contracts.Validation;
-using System;
+﻿using PaymentGateway.Models.Validation;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PaymentGateway.Api
 {

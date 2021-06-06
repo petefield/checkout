@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace PaymentGateway.Models.Contracts
+﻿namespace PaymentGateway.Models.Contracts
 {
     public interface IExpiryDate
     {

@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PaymentGateway.Models.Contracts;
-using PaymentGateway.Services.Contracts;
 using AcquiringBank.Contracts;
 using PaymentGateway.Models;
+using PaymentGateway.Data.Contracts;
 
 namespace PaymentGateway.Api.Controllers
 {
@@ -27,31 +27,30 @@ namespace PaymentGateway.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<IPaymentDetail> Get(Guid PaymentRequestId)
+        public async Task<IPaymentDetails> Get(Guid PaymentRequestId)
         {
             var paymentDetail = await _paymentRepo.Read(PaymentRequestId);
-            return paymentDetail;
+            return paymentDetail as PaymentDetails;
         }
 
         [HttpPost]
-        public async Task<IPaymentResponse> Post(IPaymentRequest request)
+        public async Task<IPaymentDetails> Post(PaymentRequest request)
         {
-            var requestId = Guid.NewGuid();
+            _logger.LogInformation("Payment Request Recieved");
+
             var bankResponse = await SendRequestToBank(request);
-            var response = Map(request, bankResponse);
-            await _paymentRepo.AddPaymentDetails(request, response);
-            return response;
+
+            var paymentDetail = await _paymentRepo.AddPaymentDetails(new PaymentDetails(Guid.NewGuid(), DateTime.UtcNow)
+            {
+                CardNumber = request.CardNumber,
+                CVV = request.CVV,
+                Amount = request.Amount,
+                BankResponseId = bankResponse.Id
+            });
+            return paymentDetail;
         }
 
-        private IPaymentResponse Map(IPaymentRequest request, IAcquiringBankResponse bankresponse) => new PaymentResponse()
-        {
-            Id = Guid.NewGuid(),
-            RequestDetails = request,
-            Reason = bankresponse.Reason,
-            Status = (PaymentResponseStatus)bankresponse.Status
-        };
-
-        private async Task<IAcquiringBankResponse> SendRequestToBank(IPaymentRequest request)
+        private async Task<IAcquiringBankResponse> SendRequestToBank(PaymentRequest request)
         {
             return await _aquiringBank.CreatePayment(request.CardNumber, request.CVV, request.ExpiryDate.Year, request.ExpiryDate.Month, request.Amount, request.CurrencyCode );
         }

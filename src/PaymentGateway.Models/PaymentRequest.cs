@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using PaymentGateway.Models.Contracts;
-using PaymentGateway.Services;
+using PaymentGateway.Models.Validation;
 
 namespace PaymentGateway.Models
 {
@@ -17,12 +17,13 @@ namespace PaymentGateway.Models
         
         [Required]
         [ExpiryDate]
-        public IExpiryDate ExpiryDate { get; set; }
+        public ExpiryDate ExpiryDate { get; set; }
 
         [Range(1, 999999999)]
         public int Amount {get; set; }
 
         [CurrencyCode]
         public string CurrencyCode{get; set;}
+        IExpiryDate IPaymentRequest.ExpiryDate { get => ExpiryDate; set => ExpiryDate = value as ExpiryDate; }
     }
 }

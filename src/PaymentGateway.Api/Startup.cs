@@ -13,9 +13,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using PaymentGateway.Services;
-using PaymentGateway.Services.Contracts;
-using PaymentGateway.Services.Contracts.Validation;
+using PaymentGateway.Data;
+using PaymentGateway.Data.Contracts;
+using PaymentGateway.Models.Validation;
 
 namespace PaymentGateway.Api
 {
@@ -37,7 +37,7 @@ namespace PaymentGateway.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "src", Version = "v1" });
             });
             services.AddSingleton<IAcquiringBank, InMemoryAcquiringBank>();
-            services.AddSingleton<IValidCurrencyCodeProvider, ValidCurrencies>();
+            services.AddScoped<IValidCurrencyCodeProvider, ValidCurrencies>();
             services.AddSingleton<IPaymentStore, PaymentStore>();
         }
 

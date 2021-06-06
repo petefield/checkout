@@ -5,15 +5,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\AcquiringBank.InMemory\AcquiringBank.InMemory.csproj" />
-    <ProjectReference Include="..\paymentgateway.Models.contracts\PaymentGateway.Models.Contracts.csproj" />
     <ProjectReference Include="..\PaymentGateway.Models\PaymentGateway.Models.csproj" />
-    <ProjectReference Include="..\paymentgateway.services.contracts\PaymentGateway.Services.Contracts.csproj" />
-    <ProjectReference Include="..\paymentgateway.services\PaymentGateway.Services.csproj" />
+    <ProjectReference Include="..\PaymentGateway.Services.Contracts\PaymentGateway.Data.Contracts.csproj" />
+    <ProjectReference Include="..\PaymentGateway.Services\PaymentGateway.Data.csproj" />
     <ProjectReference Include="..\acquiringBank.contracts\AcquiringBank.Contracts.csproj" />
   </ItemGroup>
 

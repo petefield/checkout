@@ -1,6 +1,5 @@
 ﻿using System;
 using PaymentGateway.Models.Contracts;
-using PaymentGateway.Services;
 
 namespace PaymentGateway.Models
 {
@@ -10,7 +9,7 @@ namespace PaymentGateway.Models
 
         public IPaymentRequest RequestDetails { get; set; }
 
-        public PaymentResponseStatus Status { get; set; }
+        public PaymentStatus Status { get; set; }
 
         public string Reason { get; set; }
     }

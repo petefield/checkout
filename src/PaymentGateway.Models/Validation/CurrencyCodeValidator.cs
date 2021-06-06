@@ -1,7 +1,6 @@
-﻿using PaymentGateway.Services.Contracts.Validation;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
-namespace PaymentGateway.Services
+namespace PaymentGateway.Models.Validation
 {
     public class ValidCurrencyCodeProvider : IValidCurrencyCodeProvider
     {

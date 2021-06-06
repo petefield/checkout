@@ -6,7 +6,7 @@ namespace PaymentGateway.Models.Contracts
     {
         Guid Id { get;  }
         IPaymentRequest RequestDetails { get; }
-        PaymentResponseStatus Status { get; }
+        PaymentStatus Status { get; }
         string Reason {get;}
     }
 }

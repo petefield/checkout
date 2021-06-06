@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace PaymentGateway.Services.Contracts.Validation
+namespace PaymentGateway.Models.Validation
 {
     public interface IValidCurrencyCodeProvider
     {
