@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace PaymentGateway.Models.Validation
 {
+    [AttributeUsage(AttributeTargets.Property)]
     public class CurrencyCodeAttribute : ValidationAttribute
     {
 
@@ -11,12 +13,11 @@ namespace PaymentGateway.Models.Validation
 
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            string currencyCode = value as string;
-
-            if (string.IsNullOrWhiteSpace(currencyCode)) return CreateValidationResult("A valid Currency Code is required.", validationContext);
-            if (currencyCode.Length != 3) return CreateValidationResult("Currency Code must be 3 characters", validationContext);
+            if (value is not string currencyCode) return CreateValidationResult($"'{value}' is not a valid currency code", validationContext);
 
             var validCurrencyCodeProvider = validationContext.GetService<IValidCurrencyCodeProvider>();
+            if (validCurrencyCodeProvider is null) 
+                throw new System.InvalidOperationException(" Unable to resolve service for type 'PaymentGateway.Models.Validation.IValidCurrencyCodeProvider'");
 
             return validCurrencyCodeProvider.ValidCurrencyCodes.Contains(currencyCode) 
                 ? ValidationResult.Success 
@@ -24,5 +25,8 @@ namespace PaymentGateway.Models.Validation
         }
 
         private ValidationResult CreateValidationResult(string message, ValidationContext context) => new ValidationResult(message, new[] { context.MemberName });
+    
+  
+
     }
 }

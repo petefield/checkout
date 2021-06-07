@@ -37,7 +37,7 @@ namespace PaymentGateway.Api
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "src", Version = "v1" });
             });
             services.AddSingleton<IAcquiringBank, InMemoryAcquiringBank>();
-            services.AddScoped<IValidCurrencyCodeProvider, ValidCurrencies>();
+            services.AddScoped<IValidCurrencyCodeProvider, InMemoryValidCurrencyCodeProvider>();
             services.AddSingleton<IPaymentStore, PaymentStore>();
         }
 

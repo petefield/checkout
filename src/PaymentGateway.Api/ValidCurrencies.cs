@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PaymentGateway.Api
 {
-    public class ValidCurrencies : IValidCurrencyCodeProvider
+    public class InMemoryValidCurrencyCodeProvider : IValidCurrencyCodeProvider
     {
         public IEnumerable<string> ValidCurrencyCodes => new[] { "GBP", "USD"};
     }
