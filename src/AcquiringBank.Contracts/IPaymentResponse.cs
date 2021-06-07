@@ -2,10 +2,11 @@
 
 namespace AcquiringBank.Contracts
 {
-    public interface IAcquiringBankResponse
+    public interface IPaymentResponse
     {
         string Id { get; }
-        IAcquiringBankRequestStatus Status { get; }
+        Outcome Outcome { get; }
         string Reason { get; }
+        DateTime TimeStamp { get; }
     }
 }

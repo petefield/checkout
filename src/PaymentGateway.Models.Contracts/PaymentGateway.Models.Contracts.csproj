@@ -4,4 +4,8 @@
     <TargetFramework>net5</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AcquiringBank.Contracts\PaymentGateway.AcquiringBank.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>

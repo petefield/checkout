@@ -1,6 +1,7 @@
 namespace AcquiringBank.Contracts
 {
-    public enum IAcquiringBankRequestStatus{
+    public enum Outcome
+    {
         Success,
         Failed,
         Held,

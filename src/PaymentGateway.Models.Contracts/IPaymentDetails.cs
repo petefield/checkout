@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AcquiringBank.Contracts;
+using System;
 
 namespace PaymentGateway.Models.Contracts
 {
@@ -8,8 +9,10 @@ namespace PaymentGateway.Models.Contracts
         string CardNumber { get; }
         int Amount { get; }
         string CVV { get; }
-        PaymentStatus Status { get; }
-        public string BankResponseId { get; }
-
+        Outcome Outcome { get; }
+        string Reason { get;  }
+        string BankReference { get; }
+        DateTime Received { get;  }
+        DateTime Processed { get;  }
     }
 }

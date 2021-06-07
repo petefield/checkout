@@ -3,23 +3,23 @@ using System;
 
 namespace AcquiringBank.InMemory
 {
-    public class Response : IAcquiringBankResponse
+    public class Response : IPaymentResponse
     {
-        public Response()
+        public Response() : this(Outcome.Success, null)
         {
-            this.Id = Guid.NewGuid().ToString();
-            this.Status = IAcquiringBankRequestStatus.Success;
         }
 
-        public Response(IAcquiringBankRequestStatus status, string reason)
+        public Response(Outcome outcome, string reason)
         {
             this.Id = Guid.NewGuid().ToString();
-            this.Status = status;
+            this.Outcome = outcome;
             this.Reason = reason;
+            this.TimeStamp = DateTime.UtcNow;
         }
 
         public string Id { get; }
-        public IAcquiringBankRequestStatus Status { get; }
+        public Outcome Outcome { get; }
         public string Reason { get; }
+        public DateTime TimeStamp { get; }
     }
 }

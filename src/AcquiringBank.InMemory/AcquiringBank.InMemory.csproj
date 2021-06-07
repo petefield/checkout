@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AcquiringBank.Contracts\AcquiringBank.Contracts.csproj" />
+    <ProjectReference Include="..\AcquiringBank.Contracts\PaymentGateway.AcquiringBank.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

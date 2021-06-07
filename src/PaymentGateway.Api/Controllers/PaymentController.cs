@@ -2,56 +2,51 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PaymentGateway.Models.Contracts;
 using AcquiringBank.Contracts;
 using PaymentGateway.Models;
 using PaymentGateway.Data.Contracts;
+using PaymentGateway.Utils;
+using PaymentGateway.Models.Contracts;
 
 namespace PaymentGateway.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class PaymentController : ControllerBase
+    public class PaymentsController : ControllerBase
     {
-        private readonly ILogger<PaymentController> _logger;
+        private readonly ILogger<PaymentsController> _logger;
         private readonly IAcquiringBank _aquiringBank;
         private readonly IPaymentStore _paymentRepo;
 
-        public PaymentController(ILogger<PaymentController> logger,
-            IAcquiringBank aquiringBank, 
-            IPaymentStore paymentRepo)
+        public PaymentsController(ILogger<PaymentsController> logger, IAcquiringBank aquiringBank, IPaymentStore paymentRepo)
         {
-            _logger = logger;
-            _aquiringBank = aquiringBank;
-            _paymentRepo = paymentRepo;
+            _logger = logger.ArgumentNullCheck(nameof(logger));
+            _aquiringBank = aquiringBank.ArgumentNullCheck(nameof(aquiringBank));
+            _paymentRepo = paymentRepo.ArgumentNullCheck(nameof(paymentRepo));
         }
 
-        [HttpGet]
-        public async Task<IPaymentDetails> Get(Guid PaymentRequestId)
+        [HttpGet("{paymentId}")]
+        public async Task<ActionResult<PaymentDetails>> Get(Guid paymentId)
         {
-            var paymentDetail = await _paymentRepo.Read(PaymentRequestId);
-            return paymentDetail as PaymentDetails;
+            _logger.LogInformation($"Payment details for {paymentId} requester.");
+            var payment = await _paymentRepo.Read(paymentId);
+            if (payment == null) return NotFound();
+            return new PaymentDetails(payment.Value.paymentRequest, payment.Value.paymentResponse);
         }
 
         [HttpPost]
-        public async Task<IPaymentDetails> Post(PaymentRequest request)
+        public async Task<ActionResult<PaymentDetails>> Post(PaymentRequest paymentRequest)
         {
-            _logger.LogInformation("Payment Request Recieved");
-
+            _logger.LogInformation($"Payment request recieved.");
+            var request = await _paymentRepo.AddPaymentRequest(paymentRequest);
             var bankResponse = await SendRequestToBank(request);
-
-            var paymentDetail = await _paymentRepo.AddPaymentDetails(new PaymentDetails(Guid.NewGuid(), DateTime.UtcNow)
-            {
-                CardNumber = request.CardNumber,
-                CVV = request.CVV,
-                Amount = request.Amount,
-                BankResponseId = bankResponse.Id
-            });
-            return paymentDetail;
+            await _paymentRepo.AddPaymentResponse(request.RequestId, bankResponse);
+            return new PaymentDetails(request, bankResponse);
         }
 
-        private async Task<IAcquiringBankResponse> SendRequestToBank(PaymentRequest request)
+        private async Task<IPaymentResponse> SendRequestToBank(IPaymentRequest request)
         {
+            _logger.LogInformation($"Payment request {request.RequestId} sent to bank");
             return await _aquiringBank.CreatePayment(request.CardNumber, request.CVV, request.ExpiryDate.Year, request.ExpiryDate.Month, request.Amount, request.CurrencyCode );
         }
     }

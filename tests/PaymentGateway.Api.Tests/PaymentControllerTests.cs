@@ -15,14 +15,15 @@ namespace PaymentGateway.Api.Tests
     {
         IPaymentStore _store;
         IAcquiringBank _acquiringBank;
-        PaymentController _subject;
-        ILogger<PaymentController> _logger;
+        PaymentsController _subject;
+        ILogger<PaymentsController> _logger;
         public PaymentControllerTests()
         {
-            _logger = Substitute.For<ILogger<PaymentController>>();
+            _logger = Substitute.For<ILogger<PaymentsController>>();
             _store = Substitute.For<IPaymentStore>();
+            _store.AddPaymentRequest(Arg.Any<IPaymentRequest>()).Returns(arg => (IPaymentRequest)arg[0]);
             _acquiringBank = Substitute.For<IAcquiringBank>();
-            _subject = new PaymentController(_logger, _acquiringBank, _store);
+            _subject = new PaymentsController(_logger, _acquiringBank, _store);
         }
 
         [Fact]
@@ -30,7 +31,7 @@ namespace PaymentGateway.Api.Tests
         {
             var request = CreatePaymentRequest();
             await _subject.Post(request);
-            await _store.Received().AddPaymentDetails(Arg.Any<IPaymentDetails>());
+            await _store.Received().AddPaymentRequest(Arg.Any<IPaymentRequest>());
         }
 
         [Fact]

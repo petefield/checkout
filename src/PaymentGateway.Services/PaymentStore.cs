@@ -1,30 +1,41 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
+using AcquiringBank.Contracts;
 using PaymentGateway.Data.Contracts;
 using PaymentGateway.Models.Contracts;
 
-namespace PaymentGateway.Data
+namespace PaymentGateway.Data.InMemory
 {
     public class PaymentStore : IPaymentStore
     {
-        ConcurrentDictionary<Guid, IPaymentDetails> _store;
+        ConcurrentDictionary<Guid, IPaymentRequest> _requests;
+        ConcurrentDictionary<Guid, IPaymentResponse> _responses;
 
         public PaymentStore()
         {
-            _store = new ConcurrentDictionary<Guid, IPaymentDetails>();
+            _requests = new ConcurrentDictionary<Guid, IPaymentRequest>();
+            _responses = new ConcurrentDictionary<Guid, IPaymentResponse>();
         }
 
-        public async Task<IPaymentDetails> AddPaymentDetails(IPaymentDetails details)
+        public async Task<IPaymentRequest> AddPaymentRequest(IPaymentRequest request)
         {
-            _store.TryAdd(details.Id, details);
-            return await Task.FromResult(details);
+            request.RequestId = Guid.NewGuid();
+            _requests.TryAdd(request.RequestId, request);
+            return await Task.FromResult(request);
         }
 
-        public async Task<IPaymentDetails> Read(Guid PaymentId)
+        public async Task<IPaymentResponse> AddPaymentResponse(Guid requestId, IPaymentResponse response)
         {
-            _store.TryGetValue(PaymentId, out var p);
-            return await Task.FromResult(p);
+            _responses.TryAdd(requestId, response);
+            return await Task.FromResult(response);
+        }
+
+        public async Task<(IPaymentRequest paymentRequest, IPaymentResponse paymentResponse)?> Read(Guid paymentId)
+        {
+            _requests.TryGetValue(paymentId, out var request);
+            _responses.TryGetValue(paymentId, out var response);
+            return await Task.FromResult((request, response));
         }
     }
 }
