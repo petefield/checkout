@@ -9,7 +9,6 @@ namespace PaymentGateway.Models.Validation
 
         public override bool RequiresValidationContext => true;
 
-
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
             string currencyCode = value as string;

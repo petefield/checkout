@@ -9,28 +9,20 @@ using System.Threading.Tasks;
 using PaymentGateway.Models;
 using PaymentGateway.Data.Contracts;
 
-namespace tests
+namespace PaymentGateway.Api.Tests
 {
     public class PaymentControllerTests
     {
         IPaymentStore _store;
         IAcquiringBank _acquiringBank;
         PaymentController _subject;
-        ILogger<PaymentController> _logger
-            ;
+        ILogger<PaymentController> _logger;
         public PaymentControllerTests()
         {
             _logger = Substitute.For<ILogger<PaymentController>>();
             _store = Substitute.For<IPaymentStore>();
             _acquiringBank = Substitute.For<IAcquiringBank>();
             _subject = new PaymentController(_logger, _acquiringBank, _store);
-        }
-
-        [Fact]
-        public async Task PaymentController_Post_WithInvalidRequest_Should_Fail() {
-            var request = CreatePaymentRequest(valid: false);
-            await _subject.Post(request);
-            await _store.Received().AddPaymentDetails(Arg.Any<IPaymentDetails>());
         }
 
         [Fact]

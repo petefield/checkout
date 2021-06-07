@@ -29,7 +29,7 @@ namespace PaymentGateway.Models.Validation
             }
         }
 
-        private static ValidationResult CreateValidationResult(string message, ValidationContext context) => new ValidationResult(message, new[] { context.MemberName });
+        private static ValidationResult CreateValidationResult(string message, ValidationContext context) => new ValidationResult(message, new[] { context?.MemberName });
 
         private static string GetErrorMessage(IExpiryDate expiryDate) => $"'{expiryDate}' is in the past.";
     }
