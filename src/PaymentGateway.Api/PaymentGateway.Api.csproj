@@ -14,7 +14,7 @@
     <ProjectReference Include="..\PaymentGateway.Models\PaymentGateway.Models.csproj" />
     <ProjectReference Include="..\PaymentGateway.Services.Contracts\PaymentGateway.Data.Contracts.csproj" />
     <ProjectReference Include="..\PaymentGateway.Services\PaymentGateway.Data.csproj" />
-    <ProjectReference Include="..\acquiringBank.contracts\AcquiringBank.Contracts.csproj" />
+    <ProjectReference Include="..\AcquiringBank.contracts\AcquiringBank.Contracts.csproj" />
   </ItemGroup>
 
 </Project>
