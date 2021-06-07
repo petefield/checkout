@@ -36,12 +36,11 @@ namespace PaymentGateway.Models.Tests
             Assert.Throws<InvalidOperationException>(() => sut.GetValidationResult(value, new ValidationContext(value, serviceProvider, null))) ;
         }
 
-
         [Fact]
         public void CurrencyCodeAttribute_GetValidationResult_WithInvalidCode_ShouldFail()
         {
             var sut = new CurrencyCodeAttribute();
-            string value = "FS";
+            string value = "Invalid";
             var result = sut.GetValidationResult(value, new ValidationContext(value, _serviceProvider, null));
             Assert.NotEqual(ValidationResult.Success, result);
         }

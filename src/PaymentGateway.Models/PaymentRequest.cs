@@ -25,6 +25,7 @@ namespace PaymentGateway.Models
         [Required]
         [CurrencyCode]
         public string CurrencyCode{get; set;}
+
         IExpiryDate IPaymentRequest.ExpiryDate { get => ExpiryDate; set => ExpiryDate = value as ExpiryDate; }
     }
 }
