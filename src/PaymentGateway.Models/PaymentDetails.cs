@@ -13,8 +13,6 @@ namespace PaymentGateway.Models
             response.ArgumentNullCheck(nameof(request));
 
             Id = request.RequestId;
-            Received = request.TimeStamp;
-            Processed = response.TimeStamp;
             CardNumber = request.CardNumber.Length >= 4 ? request.CardNumber[^4..] : request.CardNumber;
             Amount = request.Amount;
             CVV = request.CVV;

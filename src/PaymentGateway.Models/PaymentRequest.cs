@@ -8,10 +8,6 @@ namespace PaymentGateway.Models
 {
     public class PaymentRequest : IPaymentRequest
     {
-        public PaymentRequest()
-        {
-            this.Received = DateTime.UtcNow;
-        }
 
         [Required]
         [CreditCard]
@@ -34,11 +30,6 @@ namespace PaymentGateway.Models
 
         [JsonIgnore]
         public Guid RequestId {get; set; }
-
-        [JsonIgnore]
-        public DateTime Received { get; set; }
-
-        public DateTime TimeStamp { get; set; }
 
         IExpiryDate IPaymentRequest.ExpiryDate { get => ExpiryDate; set => ExpiryDate = value as ExpiryDate; }
     }
