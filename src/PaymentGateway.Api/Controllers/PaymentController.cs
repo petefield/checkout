@@ -34,10 +34,20 @@ namespace PaymentGateway.Api.Controllers
             return new PaymentDetails(payment.Value.paymentRequest, payment.Value.paymentResponse);
         }
 
+        /// <summary>
+        /// Get payment details
+        /// Returns the details of the payment with the specified identifier string.
+        /// </summary>
+        /// /// <remarks>
+        /// More elaborate description
+        /// </remarks>
+        /// <param name="paymentRequest"></param>
+        /// <returns></returns>
+
         [HttpPost]
         public async Task<ActionResult<PaymentDetails>> Post(PaymentRequest paymentRequest)
         {
-            _logger.LogInformation($"Payment request recieved.");
+            _logger.LogInformation($"Valid payment request recieved.");
             var request = await _paymentRepo.AddPaymentRequest(paymentRequest);
             var bankResponse = await SendRequestToBank(request);
             await _paymentRepo.AddPaymentResponse(request.RequestId, bankResponse);

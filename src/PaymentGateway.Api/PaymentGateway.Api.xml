@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PaymentGateway.Api</name>
+    </assembly>
+    <members>
+        <member name="M:PaymentGateway.Api.Controllers.PaymentsController.Post(PaymentGateway.Models.PaymentRequest)">
+            <summary>
+            Get payment details
+            Returns the details of the payment with the specified identifier string.
+            </summary>
+            /// <remarks>
+            More elaborate description
+            </remarks>
+            <param name="paymentRequest"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
