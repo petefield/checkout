@@ -17,7 +17,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: Build the Docker image
-      run: docker build .. --file dockerfile --tag latest
+      run: docker build .. --file dockerfile --tag petefield/checkout:tagname
       working-directory: src/PaymentGateway.Api
     - name: publish the Docker image
       run: docker push petefield/checkout:latest
