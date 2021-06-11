@@ -20,6 +20,10 @@ jobs:
     - name: Build the Docker image
       run: docker build .. --file dockerfile --tag petefield/checkout:${{ env.tag }}
       working-directory: src/PaymentGateway.Api
+    - name: login
+      run:  docker login -u  ${{ secrets.DOCKERHUBUSERID }} -p  ${{ secrets.DOCKERHUBPASSWORD }}
     - name: publish the Docker image
       run: docker push petefield/checkout:${{ env.tag }}
       working-directory: src/PaymentGateway.Api 
+    - name: logout
+      run:  docker logout
