@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  # github.repository as <account>/<repo>
+  TAG_NAME: checkout-paymentgatewayapi:$(date +%s)
+  
 jobs:
 
   build:
@@ -15,8 +19,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker image
-      run: docker build .. --file dockerfile --tag checkout-paymentgatewayapi:$(date +%s)
+      run: docker build .. --file dockerfile --tag ${{ env.TAG_NAME }}
       working-directory: src/PaymentGateway.Api
     - name: publish the Docker image
-      run: docker push petefield/checkout:checkout-paymentgatewayapi:$(date +%s)
+      run: docker push petefield/checkout:${{ env.TAG_NAME }}
       working-directory: src/PaymentGateway.Api 
