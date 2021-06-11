@@ -16,7 +16,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Set Tag name
-      run: echo "tag=${{GITHUB_RUN_NUMBER}}" >> $GITHUB_ENV
+      run: echo "tag=${{ github.run_number }}" >> $GITHUB_ENV
     - name: Build the Docker image
       run: docker build .. --file dockerfile --tag petefield/checkout:${{ env.tag }}
       working-directory: src/PaymentGateway.Api
