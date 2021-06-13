@@ -1,3 +1,5 @@
+[![.NET](https://github.com/petefield/checkout/actions/workflows/dotnet.yml/badge.svg)](https://github.com/petefield/checkout/actions/workflows/dotnet.yml) [![Docker Image CI](https://github.com/petefield/checkout/actions/workflows/docker-image.yml/badge.svg)](https://github.com/petefield/checkout/actions/workflows/docker-image.yml)
+
 # Checkout.com .NET Challenge
 Building a Payment Gateway
 
@@ -19,9 +21,6 @@ merchant to offer away for their shoppers to pay for their product.
 1. [CI/CD](#CI-/-CD-Pipeline)
 1. [API Client](#APi-Client)
 1. [Enhancements](#Enhancements)
-### Build Status
-
-[![.NET](https://github.com/petefield/checkout/actions/workflows/dotnet.yml/badge.svg)](https://github.com/petefield/checkout/actions/workflows/dotnet.yml) [![Docker Image CI](https://github.com/petefield/checkout/actions/workflows/docker-image.yml/badge.svg)](https://github.com/petefield/checkout/actions/workflows/docker-image.yml)
 
 # How To Build
 
