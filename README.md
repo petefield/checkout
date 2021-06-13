@@ -11,11 +11,11 @@ An API based application that will allow a
 merchant to offer away for their shoppers to pay for their product.
 
 
-1. [How To Build](#build-details)
-1. [API Reference](#API-Reference)
-1. [API Entity Schema](#API-Schema)
-1. [Solution Architecure](#Solution-Architecure-Overview)
-1. [Containerisation](#Containerisation)
+1. [How To Build](#How-To-Build)
+1. [API Endpoints](#API-Endpoints)
+1. [API Entity Schema](#API-Entity-Schema)
+1. [Solution Architecure](#Solution -rchitecture)
+1. [Containerization](#Containerization)
 1. [CI/CD](#CI-/-CD-Pipeline)
 1. [API Client](#APi-Client)
 1. [Enhancements](#Enhancements)
@@ -23,7 +23,7 @@ merchant to offer away for their shoppers to pay for their product.
 
 [![.NET](https://github.com/petefield/checkout/actions/workflows/dotnet.yml/badge.svg)](https://github.com/petefield/checkout/actions/workflows/dotnet.yml) [![Docker Image CI](https://github.com/petefield/checkout/actions/workflows/docker-image.yml/badge.svg)](https://github.com/petefield/checkout/actions/workflows/docker-image.yml)
 
-# Build Steps
+# How To Build
 
 1. Ensure you have .Net SDK 5 installed.
 Dotnet sdks can be downloaded from https://dotnet.microsoft.com/download/visual-studio-sdks.
@@ -42,7 +42,7 @@ nb. to change the default url either set the `ASPNETCORE_URLS` environment varia
 
 1. Point a browser to [https://[host]:[port]/swagger/index.html](https://[host]:[port]/swagger/index.html) to review the API's open Api definition.
 
-# API Reference
+# API Endpoints
 
 The PaymentGateway appication exposes the following endpoints
 
@@ -80,7 +80,7 @@ This end point can be used to rerieve details of a previously submitted payment 
 | 404 - Not Found| The paymentId parameter did not represent a payment request previously submitted |
 | 200 - OK| The response body will contain a [Payment Details](#payment-details)  entity representing the details of the request with the id represented by the paymentId parameter|
 
-# API Schema
+# API Entity Schema
 
 ## Expiry date
 
@@ -112,7 +112,7 @@ This end point can be used to rerieve details of a previously submitted payment 
 | received | The date and time at which the request was recieved. |
 | processed | The date and time at which the request processing was completed. |
 
-# Solution Architecure Overview
+# Solution Architecture
 
 ## API
 The solution consists of a simple asp.net webapi application that consists of one controller `PaymentsController`.  Into this controller, instances of IPaymentStore and an IAcquiringBank are injected.
@@ -129,7 +129,7 @@ If the CVV code ends in a 0, the payment is considered to have failed due to ins
 If the CVV code ends in a 1, the payment is considered to have failed due suspected fraud.
 If the CVV code ends in any other dgit, the payment is considered succesfull.
 
-# Containerisation
+# Containerization
 A docker file is included at in \src\PaymentGateway.Api.  
 
 To build a docker image using this file :
