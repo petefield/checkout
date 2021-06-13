@@ -10,6 +10,15 @@ Building a Payment Gateway
 An API based application that will allow a
 merchant to offer away for their shoppers to pay for their product.
 
+
+1. [How To Build](#build-details)
+1. [API Reference](#API-Reference)
+1. [API Entity Schema](#API-Schema)
+1. [Solution Architecure](#Solution-Architecure-Overview)
+1. [Containerisation](#Containerisation)
+1. [CI/CD](#CI-/-CD-Pipeline)
+1. [API Client](#APi-Client)
+1. [Enhancements](#Enhancements)
 ### Build Status
 
 [![.NET](https://github.com/petefield/checkout/actions/workflows/dotnet.yml/badge.svg)](https://github.com/petefield/checkout/actions/workflows/dotnet.yml) [![Docker Image CI](https://github.com/petefield/checkout/actions/workflows/docker-image.yml/badge.svg)](https://github.com/petefield/checkout/actions/workflows/docker-image.yml)
@@ -71,16 +80,16 @@ This end point can be used to rerieve details of a previously submitted payment 
 | 404 - Not Found| The paymentId parameter did not represent a payment request previously submitted |
 | 200 - OK| The response body will contain a [Payment Details](#payment-details)  entity representing the details of the request with the id represented by the paymentId parameter|
 
-## API Schema
+# API Schema
 
-### Expiry date
+## Expiry date
 
 | name | Description |
 | ----------- | ----------- |
-| year | An iinteger representing the year in which the card will expire.|
+| year | An integer representing the year in which the card will expire.|
 | month | An integer between 1 & 12 inclusive, representing the month at the end of which the card will expire. |
 
-### Payment Request
+## Payment Request
 
 | name | Description |
 | ----------- | ----------- |
@@ -91,7 +100,7 @@ This end point can be used to rerieve details of a previously submitted payment 
 | amount | The amount to be charged.  This is represented as an integer which will be divided by 100. ie. Passing a value of 1 will result in a charge of 0.01 of the currency code specified. |
 
 
-### Payment Details
+## Payment Details
 | name | Description |
 | ----------- | ----------- |
 | id | a unique identifire which may be used to retrieve this payment record in the future.|
@@ -103,16 +112,15 @@ This end point can be used to rerieve details of a previously submitted payment 
 | received | The date and time at which the request was recieved. |
 | processed | The date and time at which the request processing was completed. |
 
-
 # Solution Architecure Overview
 
 ## API
 The solution consists of a simple asp.net webapi application that consists of one controller `PaymentsController`.  Into this controller, instances of IPaymentStore and an IAcquiringBank are injected.
 
-### Data storage
+## Data storage
 The IPaymentStore is an interface that defines methods to store and retreive payment request details. In this implementation, and in-memory store is used.
 
-### Acquiring bank.
+## Acquiring bank.
 The IAcquiringBank is an interface that defines methods used to pass a payment request on to an Aquiring Bank.
 
 In this implementation an in-memory instance of an Aquiring Bank is used.  This implementation performs no validation or logic, other than checking the last digit of the CVV code passed to it.
@@ -121,8 +129,7 @@ If the CVV code ends in a 0, the payment is considered to have failed due to ins
 If the CVV code ends in a 1, the payment is considered to have failed due suspected fraud.
 If the CVV code ends in any other dgit, the payment is considered succesfull.
 
-# Docker build
-
+# Containerisation
 A docker file is included at in \src\PaymentGateway.Api.  
 
 To build a docker image using this file :
@@ -157,7 +164,7 @@ An example of the use of the APi client is shown in (./src/PaymentGateway.Client
 
 This is a simple console app that makes a payment request and outputs the results.
 
-# Enhancements.
+# Enhancements
 
 ## Authentication: 
 
