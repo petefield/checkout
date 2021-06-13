@@ -153,24 +153,27 @@ This pipeline uses the Dotnet CLI to build the solution and run all tests.
 
 This pipleline builds a docker image using the docker file in the ./src folder.  It then pushes that image to [DockerHub](https://hub.docker.com/repository/docker/petefield/checkout).
 
-
-An azure web api is configured to pull an image from the above docker hub repository when ever a new image is pushed. It then restarts the application located at https://checkout-paymentgateway.azurewebsites.net/swagger/index.html.
+An Azure App Service instance is configured to pull an image from the above docker hub repository when ever a new image is pushed. It then restarts the application located at https://checkout-paymentgateway.azurewebsites.net/swagger/index.html.
 
 # API Client
 
 There is a class library project (./src/PaymentGateway.Client/PaymentGateway.Client.csproj) included in the solution. This class library encapsulates the functionality of the API, and allows third party developers to make requests to the API using strongly typed modles and receive a stronly typed response.
 
-An example of the use of the APi client is shown in (./src/PaymentGateway.Clients.Console/PaymentGateway.Clients.Console.csproj).
+An example of the usage of the API client is shown in (./src/PaymentGateway.Clients.Console/PaymentGateway.Clients.Console.csproj).
 
 This is a simple console app that makes a payment request and outputs the results.
 
 # Enhancements
 
 ## Authentication: 
-
 Calls to the API should be authenticated. This should be implemented by requiring a bearer token to be pre passed in the request.
 Consumers of the API would need to generate a bearer token, using a client secret, provided by the host of the api.
 
 ## Multi-Tenancy:
-
 Currently the application has no idea who payments are being requested by. Merchants should be required to pass a MerchantID as part of the payment request (or one should be inferred from bearer token.). This could then be used which merchant was calling the API, and how to treat the request. (ie.  different acquiring banks could be used etc.)
+
+## Versioning
+Currently clients have no method of using different versions of the API.  If a client wishes to consume a version of the API they should be able to specify the version either on the URL (i.e http://example.com/v1/payments) or via a version header in the request.
+
+## Leaky abstractions
+The Client class library currently leaks some abstractions that should not be exposed to the client. A re-implementation of some of the models.  Using Automapper (for example.) to map between domain specific implementations of some of the Model interfaces would be a worthwhile exercise.
