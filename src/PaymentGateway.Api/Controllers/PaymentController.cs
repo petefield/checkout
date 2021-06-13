@@ -36,14 +36,29 @@ namespace PaymentGateway.Api.Controllers
 
         /// <summary>
         /// Get payment details
-        /// Returns the details of the payment with the specified identifier string.
         /// </summary>
-        /// /// <remarks>
-        /// More elaborate description
+        /// <remarks>
+        /// <para>
+        /// Captures a payment if supported by the payment method.
+        /// </para>
+        /// Sample request:
+        ///
+        ///       POST {
+        ///         "cardNumber": "12345674",
+        ///         "cvv": "123",
+        ///         "expiryDate": {
+        ///             "year": 2022,
+        ///             "month": 12
+        ///         },
+        ///         "amount": 1000,
+        ///         "currencyCode": "GBP"
+        ///       }
         /// </remarks>
-        /// <param name="paymentRequest"></param>
-        /// <returns></returns>
+        /// 
 
+        [ProducesResponseType(typeof(PaymentDetails),201)]
+        [Produces("application/json")]
+        [Consumes("application/json")]
         [HttpPost]
         public async Task<ActionResult<PaymentDetails>> Post(PaymentRequest paymentRequest)
         {
@@ -51,7 +66,8 @@ namespace PaymentGateway.Api.Controllers
             var request = await _paymentRepo.AddPaymentRequest(paymentRequest);
             var bankResponse = await SendRequestToBank(request);
             await _paymentRepo.AddPaymentResponse(request.RequestId, bankResponse);
-            return new PaymentDetails(request, bankResponse);
+            var paymentDetails = new PaymentDetails(request, bankResponse);
+            return CreatedAtAction(nameof(Get), new { paymentId = paymentDetails.Id },paymentDetails);
         }
 
         private async Task<IPaymentResponse> SendRequestToBank(IPaymentRequest request)

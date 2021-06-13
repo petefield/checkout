@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using PaymentGateway.Models.Contracts;
@@ -21,6 +22,7 @@ namespace PaymentGateway.Models
         [ExpiryDate]
         public ExpiryDate ExpiryDate { get; set; }
 
+        [Description("Description of 'Load'")]
         [Range(1, 999999999)]
         public int Amount { get; set; }
 

@@ -5,15 +5,27 @@
     </assembly>
     <members>
         <member name="M:PaymentGateway.Api.Controllers.PaymentsController.Post(PaymentGateway.Models.PaymentRequest)">
-            <summary>
-            Get payment details
-            Returns the details of the payment with the specified identifier string.
-            </summary>
-            /// <remarks>
-            More elaborate description
-            </remarks>
-            <param name="paymentRequest"></param>
-            <returns></returns>
+             <summary>
+             Get payment details
+             </summary>
+             <remarks>
+             <para>
+             Captures a payment if supported by the payment method.
+             </para>
+             Sample request:
+            
+                   POST {
+                     "cardNumber": "12345674",
+                     "cvv": "123",
+                     "expiryDate": {
+                         "year": 2022,
+                         "month": 12
+                     },
+                     "amount": 1000,
+                     "currencyCode": "GBP"
+                   }
+             </remarks>
+             
         </member>
     </members>
 </doc>
