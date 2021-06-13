@@ -14,7 +14,7 @@ merchant to offer away for their shoppers to pay for their product.
 1. [How To Build](#How-To-Build)
 1. [API Endpoints](#API-Endpoints)
 1. [API Entity Schema](#API-Entity-Schema)
-1. [Solution Architecure](#Solution -rchitecture)
+1. [Solution Architecure](#Solution-Architecture)
 1. [Containerization](#Containerization)
 1. [CI/CD](#CI-/-CD-Pipeline)
 1. [API Client](#APi-Client)
