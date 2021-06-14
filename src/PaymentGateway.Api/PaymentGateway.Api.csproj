@@ -13,7 +13,6 @@
 
   <PropertyGroup>
     <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    <DocumentationFile>C:\Users\PeteField\Documents\WIP\checkout\src\PaymentGateway.Api\PaymentGateway.Api.xml</DocumentationFile>
   </PropertyGroup>
 
 
