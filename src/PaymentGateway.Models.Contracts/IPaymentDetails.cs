@@ -8,6 +8,7 @@ namespace PaymentGateway.Models.Contracts
         Guid Id { get;  }
         string CardNumber { get; }
         int Amount { get; }
+        string CurrencyCode { get;  }
         string CVV { get; }
         Outcome Outcome { get; }
         string Reason { get;  }

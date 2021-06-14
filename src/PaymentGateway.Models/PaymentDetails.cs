@@ -19,6 +19,7 @@ namespace PaymentGateway.Models
             Outcome = response.Outcome;
             Reason = response.Reason;
             BankReference = response.Id;
+            CurrencyCode = request.CurrencyCode;
         }
 
         public Guid Id { get; }
@@ -30,5 +31,6 @@ namespace PaymentGateway.Models
         public string BankReference { get; }
         public DateTime Received { get; }
         public DateTime Processed { get; }
+        public string CurrencyCode { get ; }
     }
 }

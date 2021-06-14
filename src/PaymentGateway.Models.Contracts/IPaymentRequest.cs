@@ -10,5 +10,6 @@ namespace PaymentGateway.Models.Contracts
         IExpiryDate ExpiryDate { get; set; }
         int Amount {get; set; }
         string CurrencyCode{get; set;}
+        DateTime TimeStamp { get; set;  }
     }
 }

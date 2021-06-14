@@ -48,6 +48,7 @@ namespace PaymentGateway
             public DateTime Received { get; set; }
 
             public DateTime Processed { get; set; }
+            public string CurrencyCode { get; set; }
         }
 
         public async Task<IPaymentDetails> RequestPayment(IPaymentRequest requestDetails) {
@@ -73,7 +74,7 @@ namespace PaymentGateway
               .RetryAsync(3);
 
             var paymentDetails = await retry.ExecuteAndCaptureAsync(async () => {
-                return await _httpClient.GetFromJsonAsync<PaymentDetails> ($"/payments/yaa");
+                return await _httpClient.GetFromJsonAsync<PaymentDetails> ($"/payments/{paymentId}");
             });
 
             return paymentDetails.Result;

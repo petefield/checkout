@@ -32,7 +32,7 @@ namespace PaymentGateway.Models
 
         [JsonIgnore]
         public Guid RequestId {get; set; }
-
+        public DateTime TimeStamp { get; set; }
         IExpiryDate IPaymentRequest.ExpiryDate { get => ExpiryDate; set => ExpiryDate = value as ExpiryDate; }
     }
 }

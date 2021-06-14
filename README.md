@@ -107,6 +107,8 @@ This end point can be used to rerieve details of a previously submitted payment 
 | cvv | The CVV code of the card that was charged. |
 | expiryDate | the [Expiry Date](#expiry-date) of the card that was charger.  |
 | outcome | Represents the outcome of the transaction - Success | Failed | Held |
+| reason| The reason (if given) that the acquiring bank set the outcome.|
+| bank reference | the unique code returned by the bank.|
 | amount | The amount that was charged. |
 | received | The date and time at which the request was recieved. |
 | processed | The date and time at which the request processing was completed. |

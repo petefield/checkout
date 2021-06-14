@@ -63,6 +63,7 @@ namespace PaymentGateway.Api.Controllers
         public async Task<ActionResult<PaymentDetails>> Post(PaymentRequest paymentRequest)
         {
             _logger.LogInformation($"Valid payment request recieved.");
+            paymentRequest.TimeStamp = DateTime.UtcNow;
             var request = await _paymentRepo.AddPaymentRequest(paymentRequest);
             var bankResponse = await SendRequestToBank(request);
             await _paymentRepo.AddPaymentResponse(request.RequestId, bankResponse);

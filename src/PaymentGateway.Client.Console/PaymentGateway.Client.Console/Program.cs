@@ -9,14 +9,14 @@ namespace PaymentGateway.Clients.Console
         {
             var client = new PaymentGateway.Client("https://checkout-paymentgateway.azurewebsites.net/","");
             var response = await client.RequestPayment(new PaymentGateway.Models.PaymentRequest() { 
-                Amount = 1000,
+                Amount = 101,
                 CardNumber = "12345674",
-                CVV = "123", 
+                CVV = "120", 
                 CurrencyCode = "GBP",
                 ExpiryDate = new Models.ExpiryDate(year: 2022, month: 12),
             });
 
-            System.Console.WriteLine($"Payment Request ID {response.Id} for {response.Amount /100} against card {response.CardNumber} was submitted at {response.Received}.");
+            System.Console.WriteLine($"Payment Request ID {response.Id} for {response.Amount / 100M} {response.CurrencyCode} against card {response.CardNumber}.");
             System.Console.WriteLine($"The request outcome was : {response.Outcome}.");
             if (response.Outcome != AcquiringBank.Contracts.Outcome.Success)
             {
@@ -24,7 +24,6 @@ namespace PaymentGateway.Clients.Console
             }
 
             System.Console.ReadLine();
-
 
             var x = await client.GetPaymentDetails(response.Id);
         }
