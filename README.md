@@ -164,6 +164,9 @@ An example of the usage of the API client is shown in (./src/PaymentGateway.Clie
 
 This is a simple console app that makes a payment request and outputs the results.
 
+![Console Client Screenshot](https://raw.githubusercontent.com/petefield/checkout/main/docs/images/screenshot.png)
+
+
 # Enhancements
 
 ## Authentication: 
