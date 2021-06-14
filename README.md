@@ -30,7 +30,7 @@ Dotnet sdks can be downloaded from https://dotnet.microsoft.com/download/visual-
 1. Clone the checkout repository:
 `git clone https://github.com/petefield/checkout.git`
 
-1. change to the src dirctory: `cd src`
+1. Change to the src dirctory: `cd src`
 
 1. Build the solution: `dotnet build`
 
@@ -140,7 +140,7 @@ To build a docker image using this file :
 
 # CI / CD Pipeline
 
-This solution uses GitHub Actions as its CI/CD pipeline.  Workflow definitions are in .githib actions folder in the repository root.
+This solution uses GitHub Actions as its CI/CD pipeline.  Workflow definitions are in .github actions folder in the repository root.
 
 ## Build and Test
 
