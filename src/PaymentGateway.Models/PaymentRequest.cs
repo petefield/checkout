@@ -9,7 +9,6 @@ namespace PaymentGateway.Models
 {
     public class PaymentRequest : IPaymentRequest
     {
-
         [Required]
         [CreditCard]
         public string CardNumber { get; set; }
@@ -32,6 +31,8 @@ namespace PaymentGateway.Models
 
         [JsonIgnore]
         public Guid RequestId {get; set; }
+
+        [JsonIgnore]
         public DateTime TimeStamp { get; set; }
         IExpiryDate IPaymentRequest.ExpiryDate { get => ExpiryDate; set => ExpiryDate = value as ExpiryDate; }
     }

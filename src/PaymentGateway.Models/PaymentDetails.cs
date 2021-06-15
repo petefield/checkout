@@ -11,7 +11,6 @@ namespace PaymentGateway.Models
         {
             request.ArgumentNullCheck(nameof(request));
             response.ArgumentNullCheck(nameof(request));
-
             Id = request.RequestId;
             CardNumber = request.CardNumber.Length >= 4 ? request.CardNumber[^4..] : request.CardNumber;
             Amount = request.Amount;
@@ -20,6 +19,8 @@ namespace PaymentGateway.Models
             Reason = response.Reason;
             BankReference = response.Id;
             CurrencyCode = request.CurrencyCode;
+            Received = request.TimeStamp;
+            Processed = response.TimeStamp;
         }
 
         public Guid Id { get; }
