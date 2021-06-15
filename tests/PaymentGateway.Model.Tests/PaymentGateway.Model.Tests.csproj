@@ -22,6 +22,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\PaymentGateway.Models\PaymentGateway.Models.csproj" />
+        <ProjectReference Include="..\..\src\PaymentGateway.Validation\PaymentGateway.Validation.csproj" />
+
   </ItemGroup>
 
 </Project>

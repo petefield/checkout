@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGateway.Client", "Pa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGateway.Clients.Console", "PaymentGateway.Client.Console\PaymentGateway.Client.Console\PaymentGateway.Clients.Console.csproj", "{3A043FE8-3D3A-4512-A2AB-FF2727519DC4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PaymentGateway.Validation", "PaymentGateway.Validation\PaymentGateway.Validation.csproj", "{EC13C64A-B399-43B4-B1B0-00A1E225FD05}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -199,6 +201,18 @@ Global
 		{3A043FE8-3D3A-4512-A2AB-FF2727519DC4}.Release|x64.Build.0 = Release|Any CPU
 		{3A043FE8-3D3A-4512-A2AB-FF2727519DC4}.Release|x86.ActiveCfg = Release|Any CPU
 		{3A043FE8-3D3A-4512-A2AB-FF2727519DC4}.Release|x86.Build.0 = Release|Any CPU
+		{EC13C64A-B399-43B4-B1B0-00A1E225FD05}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC13C64A-B399-43B4-B1B0-00A1E225FD05}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC13C64A-B399-43B4-B1B0-00A1E225FD05}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EC13C64A-B399-43B4-B1B0-00A1E225FD05}.Debug|x64.Build.0 = Debug|Any CPU
+		{EC13C64A-B399-43B4-B1B0-00A1E225FD05}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EC13C64A-B399-43B4-B1B0-00A1E225FD05}.Debug|x86.Build.0 = Debug|Any CPU
+		{EC13C64A-B399-43B4-B1B0-00A1E225FD05}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC13C64A-B399-43B4-B1B0-00A1E225FD05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC13C64A-B399-43B4-B1B0-00A1E225FD05}.Release|x64.ActiveCfg = Release|Any CPU
+		{EC13C64A-B399-43B4-B1B0-00A1E225FD05}.Release|x64.Build.0 = Release|Any CPU
+		{EC13C64A-B399-43B4-B1B0-00A1E225FD05}.Release|x86.ActiveCfg = Release|Any CPU
+		{EC13C64A-B399-43B4-B1B0-00A1E225FD05}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

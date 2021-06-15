@@ -1,6 +1,6 @@
 using System;
 using Xunit;
-using PaymentGateway.Models.Validation;
+using PaymentGateway.Validation;
 using System.ComponentModel.DataAnnotations;
 using NSubstitute;
 

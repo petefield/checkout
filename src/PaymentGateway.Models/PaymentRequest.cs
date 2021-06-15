@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
 using PaymentGateway.Models.Contracts;
-using PaymentGateway.Models.Validation;
+using PaymentGateway.Validation;
 
 namespace PaymentGateway.Models
 {
@@ -18,7 +18,7 @@ namespace PaymentGateway.Models
         public string CVV { get; set; }
 
         [Required]
-        [ExpiryDate]
+        [ExpiryDateValidator]
         public ExpiryDate ExpiryDate { get; set; }
 
         [Description("Description of 'Load'")]

@@ -1,4 +1,4 @@
-﻿using PaymentGateway.Models.Validation;
+﻿using PaymentGateway.Validation;
 using System.Collections.Generic;
 
 namespace PaymentGateway.Api

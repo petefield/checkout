@@ -22,7 +22,7 @@ namespace PaymentGateway.Clients.Console
             {
                 System.Console.WriteLine($"The reason given was {response.Reason}.");
             }
-
+            
             System.Console.ReadLine();
 
             var x = await client.GetPaymentDetails(response.Id);

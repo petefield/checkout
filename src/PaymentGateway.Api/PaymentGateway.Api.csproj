@@ -25,9 +25,12 @@
   <ItemGroup>
     <ProjectReference Include="..\AcquiringBank.InMemory\AcquiringBank.InMemory.csproj" />
     <ProjectReference Include="..\PaymentGateway.Models\PaymentGateway.Models.csproj" />
+    <ProjectReference Include="..\PaymentGateway.Validation\PaymentGateway.Validation.csproj" />
+
     <ProjectReference Include="..\PaymentGateway.Services.Contracts\PaymentGateway.Data.Contracts.csproj" />
     <ProjectReference Include="..\PaymentGateway.Services\PaymentGateway.Data.InMemory.csproj" />
     <ProjectReference Include="..\AcquiringBank.Contracts\PaymentGateway.AcquiringBank.Contracts.csproj" />
+    <ProjectReference Include="..\PaymentGateway.Utils\PaymentGateway.Utils.csproj" />
   </ItemGroup>
 
 </Project>
