@@ -34,31 +34,6 @@ namespace PaymentGateway.Api.Controllers
             return new PaymentDetails(payment.Value.paymentRequest, payment.Value.paymentResponse);
         }
 
-        /// <summary>
-        /// Get payment details
-        /// </summary>
-        /// <remarks>
-        /// <para>
-        /// Captures a payment if supported by the payment method.
-        /// </para>
-        /// Sample request:
-        ///
-        ///       POST {
-        ///         "cardNumber": "12345674",
-        ///         "cvv": "123",
-        ///         "expiryDate": {
-        ///             "year": 2022,
-        ///             "month": 12
-        ///         },
-        ///         "amount": 1000,
-        ///         "currencyCode": "GBP"
-        ///       }
-        /// </remarks>
-        /// 
-
-        [ProducesResponseType(typeof(PaymentDetails),201)]
-        [Produces("application/json")]
-        [Consumes("application/json")]
         [HttpPost]
         public async Task<ActionResult<PaymentDetails>> Post(PaymentRequest paymentRequest)
         {
