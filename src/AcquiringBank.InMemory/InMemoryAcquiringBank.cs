@@ -9,7 +9,7 @@ namespace AcquiringBank.InMemory
         public async Task<IPaymentResponse> CreatePayment(string creditCardNumber, string CVV, int expiryYear, int expiryMonth, decimal Amount, string currency)
         {
             Response response;
-
+            await Task.Delay(2000);
             switch (CVV.Last())
             {
                 case '0':
@@ -22,7 +22,7 @@ namespace AcquiringBank.InMemory
                     response = new Response();
                     break;
             }
-            await Task.Delay(2000);
+
             return response;
         }
     }
