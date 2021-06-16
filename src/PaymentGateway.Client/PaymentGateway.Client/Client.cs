@@ -13,7 +13,6 @@ namespace PaymentGateway
     {
         private readonly Uri _url;
         private readonly string _key;
-        private HttpClient _httpClient;
 
         public Client(string url, string key) : this(new Uri(url), key) { }
 
@@ -21,12 +20,6 @@ namespace PaymentGateway
         {
             _url = url;
             _key = key;
-            _httpClient = HttpClientFactory.Create();
-            _httpClient.BaseAddress = url;
-            if (!string.IsNullOrWhiteSpace(key))
-            {
-                _httpClient.DefaultRequestHeaders.Add("Authorization", key);
-            }
         }
 
         private class PaymentDetails : IPaymentDetails
@@ -57,12 +50,16 @@ namespace PaymentGateway
               .Handle<HttpRequestException>()
               .RetryAsync(3);
 
+
+            var httpClient = HttpClientFactory.Create();
+            httpClient.BaseAddress = _url;
+
             var paymentDetails = await retry.ExecuteAsync(async () => {
-                var response = await _httpClient.PostAsJsonAsync("/payments", requestDetails);
+                var response = await httpClient.PostAsJsonAsync("/payments", requestDetails);
                 try{
                     return await response.Content.ReadAsAsync<PaymentDetails>();
                 }
-                catch(Exception ex){
+                catch(Exception){
                     var responsebody = await response.Content.ReadAsStringAsync();
                     throw new Exception(responsebody);
                 }
@@ -79,8 +76,11 @@ namespace PaymentGateway
               .Handle<HttpRequestException>()
               .RetryAsync(3);
 
+           var httpClient = HttpClientFactory.Create();
+            httpClient.BaseAddress = _url;
+
             var paymentDetails = await retry.ExecuteAndCaptureAsync(async () => {
-                return await _httpClient.GetFromJsonAsync<PaymentDetails> ($"/payments/{paymentId}");
+                return await httpClient.GetFromJsonAsync<PaymentDetails> ($"/payments/{paymentId}");
             });
 
             return paymentDetails.Result;
