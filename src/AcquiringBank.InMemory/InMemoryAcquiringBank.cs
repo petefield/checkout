@@ -22,8 +22,8 @@ namespace AcquiringBank.InMemory
                     response = new Response();
                     break;
             }
-
-            return await Task.FromResult(response);
+            await Task.Delay(2000);
+            return response;
         }
     }
 }
