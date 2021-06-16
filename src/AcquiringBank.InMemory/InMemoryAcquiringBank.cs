@@ -22,7 +22,7 @@ namespace AcquiringBank.InMemory
                     break;
             }
 
-            return response;
+            return await Task.FromResult(response);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace PaymentGateway.Clients.Console
         {
             var client = new PaymentGateway.Client("https://checkout-paymentgateway.azurewebsites.net/","");
 
-            var tasks = System.Linq.Enumerable.Range(0,100).Select(async i => {
+            var tasks = System.Linq.Enumerable.Range(0,10000).Select(async i => {
                     var response = await client.RequestPayment(new PaymentGateway.Models.PaymentRequest() { 
                     Amount = 101,
                     CardNumber = "12345674",
@@ -25,7 +25,6 @@ namespace PaymentGateway.Clients.Console
                 {
                     System.Console.WriteLine($"The reason given was {response.Reason}.");
                 }
-
             });
             
             await Task.WhenAll(tasks);

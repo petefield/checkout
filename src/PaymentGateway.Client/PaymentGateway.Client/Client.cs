@@ -59,7 +59,13 @@ namespace PaymentGateway
 
             var paymentDetails = await retry.ExecuteAsync(async () => {
                 var response = await _httpClient.PostAsJsonAsync("/payments", requestDetails);
-                return await response.Content.ReadAsAsync<PaymentDetails>();
+                try{
+                    return await response.Content.ReadAsAsync<PaymentDetails>();
+                }
+                catch(Exception ex){
+                    var responsebody = await response.Content.ReadAsStringAsync();
+                    throw new Exception(responsebody);
+                }
             });
 
             return paymentDetails;
