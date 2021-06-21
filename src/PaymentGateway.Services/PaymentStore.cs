@@ -39,11 +39,11 @@ namespace PaymentGateway.Data.InMemory
             return await Task.FromResult((request, response));
         }
 
-        public async Task<IEnumerable<(IPaymentRequest paymentRequest, IPaymentResponse paymentResponse)>> Read()
+        public async IAsyncEnumerable<(IPaymentRequest paymentRequest, IPaymentResponse paymentResponse)> Read()
         {
             foreach(var request in _requests){
-                var response = _responses[request.Key];
-                yield return (request, response);
+                var response = await Task.FromResult(_responses[request.Key]);
+                yield return (request.Value, response);
             }
         }
     }

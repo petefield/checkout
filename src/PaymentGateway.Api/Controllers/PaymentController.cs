@@ -31,9 +31,8 @@ namespace PaymentGateway.Api.Controllers
         public async Task<ActionResult<IEnumerable<PaymentDetails>>> Get()
         {
             _logger.LogInformation($"Fetch all payment details.");
-            var payments = await _paymentRepo.Read();
-
-            return Ok( payments.Select(payment  =>  new PaymentDetails(payment.paymentRequest, payment.paymentResponse)));
+            var results = await _paymentRepo.Read().Select(payment  => new PaymentDetails(payment.paymentRequest, payment.paymentResponse)).ToArrayAsync();
+            return Ok(results);
 
         }
 

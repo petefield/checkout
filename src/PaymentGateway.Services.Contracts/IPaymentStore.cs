@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AcquiringBank.Contracts;
 using PaymentGateway.Models.Contracts;
@@ -10,6 +11,6 @@ namespace PaymentGateway.Data.Contracts
         Task<IPaymentRequest> AddPaymentRequest(IPaymentRequest request);
         Task<IPaymentResponse> AddPaymentResponse(Guid requestId, IPaymentResponse response);
         Task<(IPaymentRequest paymentRequest, IPaymentResponse paymentResponse)?> Read(Guid requestId);
-        Task<IEnumerable<(IPaymentRequest paymentRequest, IPaymentResponse paymentResponse)>> Read()
+        IAsyncEnumerable<(IPaymentRequest paymentRequest, IPaymentResponse paymentResponse)> Read();
     }
 }
