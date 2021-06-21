@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using AcquiringBank.Contracts;
@@ -36,6 +37,14 @@ namespace PaymentGateway.Data.InMemory
             _requests.TryGetValue(paymentId, out var request);
             _responses.TryGetValue(paymentId, out var response);
             return await Task.FromResult((request, response));
+        }
+
+        public async Task<IEnumerable<(IPaymentRequest paymentRequest, IPaymentResponse paymentResponse)>> Read()
+        {
+            foreach(var request in _requests){
+                var response = _responses[request.Key];
+                yield return (request, response);
+            }
         }
     }
 }

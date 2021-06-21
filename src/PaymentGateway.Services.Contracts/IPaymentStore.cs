@@ -10,5 +10,6 @@ namespace PaymentGateway.Data.Contracts
         Task<IPaymentRequest> AddPaymentRequest(IPaymentRequest request);
         Task<IPaymentResponse> AddPaymentResponse(Guid requestId, IPaymentResponse response);
         Task<(IPaymentRequest paymentRequest, IPaymentResponse paymentResponse)?> Read(Guid requestId);
+        Task<IEnumerable<(IPaymentRequest paymentRequest, IPaymentResponse paymentResponse)>> Read()
     }
 }

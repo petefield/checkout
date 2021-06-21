@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -7,6 +8,7 @@ using PaymentGateway.Models;
 using PaymentGateway.Data.Contracts;
 using PaymentGateway.Utils;
 using PaymentGateway.Models.Contracts;
+using System.Linq;
 
 namespace PaymentGateway.Api.Controllers
 {
@@ -23,6 +25,16 @@ namespace PaymentGateway.Api.Controllers
             _logger = logger.ArgumentNullCheck(nameof(logger));
             _aquiringBank = aquiringBank.ArgumentNullCheck(nameof(aquiringBank));
             _paymentRepo = paymentRepo.ArgumentNullCheck(nameof(paymentRepo));
+        }
+
+        [HttpGet()]
+        public async Task<ActionResult<IEnumerable<PaymentDetails>>> Get()
+        {
+            _logger.LogInformation($"Fetch all payment details.");
+            var payments = await _paymentRepo.Read();
+
+            return Ok( payments.Select(payment  =>  new PaymentDetails(payment.paymentRequest, payment.paymentResponse)));
+
         }
 
         [HttpGet("{paymentId}")]

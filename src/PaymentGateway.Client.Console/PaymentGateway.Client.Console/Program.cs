@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Collections.Generic;
+using PaymentGateway.Models;
+using PaymentGateway.Models.Contracts;
 
 namespace PaymentGateway.Clients.Console
 {
@@ -8,26 +11,27 @@ namespace PaymentGateway.Clients.Console
     {
         static async Task Main(string[] args)
         {
-            var client = new PaymentGateway.Client("https://checkout-paymentgateway.azurewebsites.net/","");
+            var client = new PaymentGateway.Client("http://3.139.92.15/","");
 
-            var tasks = System.Linq.Enumerable.Range(0,5000).Select(async i => {
-
-
-
-                    var response = await client.RequestPayment(new PaymentGateway.Models.PaymentRequest() { 
+            var payments = new List<IPaymentDetails>();
+            var batchSize = 1;
+    
+            for(int i = 0; i < 1; i++)
+            {
+                var tasks = System.Linq.Enumerable.Range(0, batchSize).Select(async i =>await client.RequestPayment(new PaymentRequest { 
                     Amount = 101,
                     CardNumber = "12345674",
                     CVV = "123", 
                     CurrencyCode = "GBP",
-                    ExpiryDate = new Models.ExpiryDate(year: 2022, month: 12),
-                });
+                    ExpiryDate = new Models.ExpiryDate(year: 2022, month: 12)  }));
+                
+                var results = await Task.WhenAll(tasks);
+                payments.AddRange(await Task.WhenAll(tasks));
 
-                System.Console.WriteLine($"{response.Received } : Payment Request ID  {response.Id} for {response.Amount / 100M} {response.CurrencyCode} against card {response.CardNumber} => {response.Outcome} at {response.Processed}.");
-            });
+                System.Console.WriteLine(payments.Count);
+            }   
             
-            await Task.WhenAll(tasks);
-            System.Console.Write("done");
-
+            System.Console.Write("done"); 
             System.Console.ReadLine();
         }
     }
