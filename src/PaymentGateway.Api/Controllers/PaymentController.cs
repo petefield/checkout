@@ -8,7 +8,6 @@ using PaymentGateway.Models;
 using PaymentGateway.Data.Contracts;
 using PaymentGateway.Utils;
 using PaymentGateway.Models.Contracts;
-using System.Linq;
 
 namespace PaymentGateway.Api.Controllers
 {
@@ -31,30 +30,29 @@ namespace PaymentGateway.Api.Controllers
         public async Task<ActionResult<IEnumerable<PaymentDetails>>> Get()
         {
             _logger.LogInformation($"Fetch all payment details.");
-            var results = await _paymentRepo.Read().Select(payment  => new PaymentDetails(payment.paymentRequest, payment.paymentResponse)).ToArrayAsync();
+            var results = await _paymentRepo.Read();
             return Ok(results);
-
         }
 
         [HttpGet("{paymentId}")]
-        public async Task<ActionResult<PaymentDetails>> Get(Guid paymentId)
+        public async Task<ActionResult<IPaymentDetails>> Get(Guid paymentId)
         {
             _logger.LogInformation($"Payment details for {paymentId} requester.");
-            var payment = await _paymentRepo.Read(paymentId);
-            if (payment == null) return NotFound();
-            return new PaymentDetails(payment.Value.paymentRequest, payment.Value.paymentResponse);
+            var paymentRecord = await _paymentRepo.Read(paymentId);
+            if (paymentRecord == null) return NotFound();
+            return Ok(paymentRecord);
         }
 
         [HttpPost]
-        public async Task<ActionResult<PaymentDetails>> Post(PaymentRequest paymentRequest)
+        public async Task<ActionResult<IPaymentDetails>> Post(PaymentRequest paymentRequest)
         {
             _logger.LogInformation($"Valid payment request recieved.");
-            paymentRequest.TimeStamp = DateTime.UtcNow;
-            var request = await _paymentRepo.AddPaymentRequest(paymentRequest);
-            var bankResponse = await SendRequestToBank(request);
-            await _paymentRepo.AddPaymentResponse(request.RequestId, bankResponse);
-            var paymentDetails = new PaymentDetails(request, bankResponse);
-            return CreatedAtAction(nameof(Get), new { paymentId = paymentDetails.Id },paymentDetails);
+            var paymentRecord = await _paymentRepo.AddPaymentRequest(paymentRequest);
+            _logger.LogInformation($"Request {paymentRecord.Id} recieved.");
+
+            var bankResponse = await SendRequestToBank(paymentRequest);
+            paymentRecord = await _paymentRepo.AddPaymentResponse(paymentRecord.Id, bankResponse);
+            return CreatedAtAction(nameof(Get), new { paymentId = paymentRecord.Id }, paymentRecord);
         }
 
         private async Task<IPaymentResponse> SendRequestToBank(IPaymentRequest request)

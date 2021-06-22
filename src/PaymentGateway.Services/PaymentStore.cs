@@ -1,50 +1,45 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Concurrent;
 using System.Threading.Tasks;
 using AcquiringBank.Contracts;
 using PaymentGateway.Data.Contracts;
 using PaymentGateway.Models.Contracts;
+using Amazon.DynamoDBv2.DataModel;
 
 namespace PaymentGateway.Data.InMemory
 {
     public class PaymentStore : IPaymentStore
     {
-        ConcurrentDictionary<Guid, IPaymentRequest> _requests;
-        ConcurrentDictionary<Guid, IPaymentResponse> _responses;
+        IDynamoDBContext _context;
 
-        public PaymentStore()
+        public PaymentStore(IDynamoDBContext context)
         {
-            _requests = new ConcurrentDictionary<Guid, IPaymentRequest>();
-            _responses = new ConcurrentDictionary<Guid, IPaymentResponse>();
+            _context = context;
         }
 
-        public async Task<IPaymentRequest> AddPaymentRequest(IPaymentRequest request)
+        public async Task<IPaymentDetails> AddPaymentRequest(IPaymentRequest request)
         {
-            request.RequestId = Guid.NewGuid();
-            _requests.TryAdd(request.RequestId, request);
-            return await Task.FromResult(request);
+            var record = new PaymentRecord(request);
+            await _context.SaveAsync(record);
+            return record;
         }
 
-        public async Task<IPaymentResponse> AddPaymentResponse(Guid requestId, IPaymentResponse response)
+        public async Task<IPaymentDetails> AddPaymentResponse(Guid requestId, IPaymentResponse response)
         {
-            _responses.TryAdd(requestId, response);
-            return await Task.FromResult(response);
+            var record = await ReadInternal(requestId);
+            record.AddPaymentResponse(response);
+            await _context.SaveAsync(record);
+            return record;
         }
 
-        public async Task<(IPaymentRequest paymentRequest, IPaymentResponse paymentResponse)?> Read(Guid paymentId)
-        {
-            _requests.TryGetValue(paymentId, out var request);
-            _responses.TryGetValue(paymentId, out var response);
-            return await Task.FromResult((request, response));
-        }
+        private async Task<PaymentRecord> ReadInternal(Guid paymentId) => await _context.LoadAsync<PaymentRecord>(paymentId);
 
-        public async IAsyncEnumerable<(IPaymentRequest paymentRequest, IPaymentResponse paymentResponse)> Read()
+        public async Task<IPaymentDetails> Read(Guid paymentId) => await ReadInternal(paymentId);
+
+        public async Task<IEnumerable<IPaymentDetails>> Read()
         {
-            foreach(var request in _requests){
-                var response = await Task.FromResult(_responses[request.Key]);
-                yield return (request.Value, response);
-            }
+            var conditions = new List<ScanCondition>();
+            return await _context.ScanAsync<PaymentRecord>(conditions).GetRemainingAsync();          
         }
     }
 }

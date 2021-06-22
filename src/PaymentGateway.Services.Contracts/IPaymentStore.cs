@@ -8,9 +8,9 @@ namespace PaymentGateway.Data.Contracts
 {
     public interface IPaymentStore
     {
-        Task<IPaymentRequest> AddPaymentRequest(IPaymentRequest request);
-        Task<IPaymentResponse> AddPaymentResponse(Guid requestId, IPaymentResponse response);
-        Task<(IPaymentRequest paymentRequest, IPaymentResponse paymentResponse)?> Read(Guid requestId);
-        IAsyncEnumerable<(IPaymentRequest paymentRequest, IPaymentResponse paymentResponse)> Read();
+        Task<IPaymentDetails> AddPaymentRequest(IPaymentRequest request);
+        Task<IPaymentDetails> AddPaymentResponse(Guid requestId, IPaymentResponse response);
+        Task<IPaymentDetails> Read(Guid requestId);
+        Task<IEnumerable<IPaymentDetails>> Read();
     }
 }

@@ -13,6 +13,8 @@ using Microsoft.OpenApi.Models;
 using PaymentGateway.Data.Contracts;
 using PaymentGateway.Validation;
 using Microsoft.Extensions.Hosting;
+using Amazon.DynamoDBv2.DataModel;
+using Amazon.DynamoDBv2;
 
 namespace PaymentGateway.Api
 {
@@ -45,6 +47,10 @@ namespace PaymentGateway.Api
             services.AddScoped<IAcquiringBank, InMemoryAcquiringBank>();
             services.AddScoped<IValidCurrencyCodeProvider, InMemoryCurrencyCodeProvider>();
             services.AddSingleton<IPaymentStore, Data.InMemory.PaymentStore>();
+            services.AddSingleton<IDynamoDBContext>( sp => {
+                AmazonDynamoDBClient awsDbClient = new AmazonDynamoDBClient("AKIAYEGJL3VYUGJGIT6C", "Sj77i7tx5dPxWWxHJwoUD5DRe5fcPz531qhsOz9X", Amazon.RegionEndpoint.EUWest2);
+                return new DynamoDBContext(awsDbClient); 
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
